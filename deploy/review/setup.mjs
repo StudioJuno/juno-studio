@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {randomBytes} from 'node:crypto';
+const [url,file]=process.argv.slice(2);
+if(!url||!file)throw Error('Usage: node setup.mjs https://clients.example.fr /secure/new-review.env');
+const parsed=new URL(url);if(parsed.protocol!=='https:'||parsed.pathname!=='/'||parsed.username||parsed.password||parsed.hash||parsed.search)throw Error('Adresse HTTPS sans chemin requise.');
+process.umask(0o077);
+const token=randomBytes(32).toString('base64url');
+await fs.writeFile(path.resolve(file),`HOST=127.0.0.1\nPORT=8788\nJUNO_REVIEW_DATA=/var/lib/juno-review\nJUNO_REVIEW_URL=${parsed.origin}\nJUNO_REVIEW_DOMAIN=${parsed.hostname}\nJUNO_TRUST_PROXY=1\nJUNO_REVIEW_QUOTA_GB=100\nJUNO_REVIEW_BOOTSTRAP_TOKEN=${token}\n`,{mode:0o600,flag:'wx'});
+console.log('Configuration privée créée. La clé n’est pas affichée ; elle reste dans le fichier protégé.');

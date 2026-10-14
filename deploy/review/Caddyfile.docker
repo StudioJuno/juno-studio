@@ -1,0 +1,4 @@
+{$JUNO_REVIEW_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy review:8788
+}

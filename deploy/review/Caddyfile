@@ -1,0 +1,5 @@
+# Set JUNO_REVIEW_DOMAIN in the Caddy service environment before starting.
+{$JUNO_REVIEW_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy 127.0.0.1:8788
+}

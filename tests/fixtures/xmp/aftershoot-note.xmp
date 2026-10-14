@@ -1,0 +1,40 @@
+<?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="XMP Core 6.0.0">
+ <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <rdf:Description rdf:about=""
+    xmlns:xmp="http://ns.adobe.com/xap/1.0/"
+    xmlns:crs="http://ns.adobe.com/camera-raw-settings/1.0/"
+    xmlns:As="http://ns.aftershoot.com/edits/1.0/"
+   xmp:Rating="5"
+   xmp:Label="Vert"
+   crs:Temperature="5400"
+   crs:Tint="8"
+   crs:WhiteBalance="Custom"
+   crs:ProcessVersion="15.4"
+   crs:Exposure2012="0.45"
+   crs:Contrast2012="12"
+   crs:Highlights2012="-40"
+   crs:CropAngle="-1.2"
+   crs:HasCrop="True"
+   As:AfsCropAngle="1.2">
+   <crs:Look>
+    <rdf:Description
+     crs:Name="Adobe Color"
+     crs:Amount="1">
+     <crs:Parameters>
+      <rdf:Description
+       crs:Version="15.4"
+       crs:ConvertToGrayscale="False"/>
+     </crs:Parameters>
+    </rdf:Description>
+   </crs:Look>
+   <crs:ToneCurvePV2012>
+    <rdf:Seq>
+     <rdf:li>0, 0</rdf:li>
+     <rdf:li>255, 255</rdf:li>
+    </rdf:Seq>
+   </crs:ToneCurvePV2012>
+  </rdf:Description>
+ </rdf:RDF>
+</x:xmpmeta>
+<?xpacket end="w"?>

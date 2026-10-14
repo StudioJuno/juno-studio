@@ -1,0 +1,242 @@
+.pilot-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #b7c6b9;
+  background: #edf1e7;
+  color: #244b38;
+  padding: 9px 12px;
+  border-radius: 9px;
+  font: 600 12px inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.pilot-panel {
+  --pilot-bg: #fbfcf8;
+  --pilot-ink: #263a2f;
+  --pilot-border: #d5dccf;
+  --pilot-muted: #5a695e;
+  position: fixed;
+  z-index: 110;
+  right: 20px;
+  top: 85px;
+  width: 390px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 110px);
+  overflow: auto;
+  background: var(--pilot-bg);
+  color: var(--pilot-ink);
+  border: 1px solid var(--pilot-border);
+  border-radius: 16px;
+  box-shadow: 0 16px 60px #142b292b;
+  padding: 18px;
+  font:
+    13px/1.5 "Inter",
+    system-ui,
+    sans-serif;
+}
+.pilot-dark {
+  --pilot-bg: #20292f;
+  --pilot-ink: #edf2ea;
+  --pilot-border: #46524e;
+  --pilot-muted: #b7c3bb;
+}
+.pilot-panel button,
+.pilot-panel select,
+.pilot-panel textarea {
+  font: inherit;
+  color: inherit;
+}
+.pilot-panel button {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--pilot-border);
+  border-radius: 7px;
+  background: transparent;
+  padding: 7px 10px;
+}
+.pilot-panel button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pilot-panel button:hover:not(:disabled) {
+  background: #79916122;
+}
+.pilot-panel button:focus-visible,
+.pilot-panel textarea:focus-visible,
+.pilot-panel select:focus-visible {
+  outline: 3px solid #a2b37f;
+  outline-offset: 2px;
+}
+.pilot-panel header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+.pilot-panel header > div {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  column-gap: 8px;
+  align-items: center;
+}
+.pilot-panel header small {
+  grid-column: 2;
+  font-size: 11px;
+  color: var(--pilot-muted);
+}
+.pilot-context {
+  padding: 10px 0;
+  margin: 8px 0;
+  border-bottom: 1px solid var(--pilot-border);
+  overflow-wrap: anywhere;
+}
+.pilot-scope {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  gap: 8px;
+  color: var(--pilot-muted);
+}
+.pilot-scope select {
+  background: var(--pilot-bg);
+  border: 1px solid var(--pilot-border);
+  border-radius: 6px;
+  padding: 5px;
+  max-width: 210px;
+}
+.pilot-panel textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 88px;
+  max-height: 230px;
+  box-sizing: border-box;
+  border: 1px solid var(--pilot-border);
+  border-radius: 10px;
+  padding: 12px;
+  background: var(--pilot-bg);
+  line-height: 1.5;
+}
+.pilot-panel textarea::placeholder {
+  color: var(--pilot-muted);
+}
+.pilot-submit {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+.pilot-panel .pilot-execute {
+  background: #315541;
+  color: #fff;
+  border-color: #315541;
+}
+.pilot-panel .pilot-recording {
+  background: #a63531;
+  color: #fff;
+}
+.pilot-result {
+  margin: 14px 0;
+  padding: 11px;
+  border-radius: 9px;
+  background: #7e996218;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.pilot-help {
+  margin: 16px 0;
+  border-bottom: 1px solid var(--pilot-border);
+  padding-bottom: 14px;
+}
+.pilot-help summary {
+  cursor: pointer;
+  color: var(--pilot-muted);
+}
+.pilot-examples {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pilot-examples button {
+  font-size: 12px;
+  text-align: left;
+}
+/* L'IA locale n'est plus dans l'installation : on la propose ici. */
+.pilot-model {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--pilot-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 10px 0;
+}
+.pilot-model small {
+  flex: 1 1 220px;
+  line-height: 1.4;
+}
+.pilot-model progress {
+  flex: 1 1 160px;
+  height: 6px;
+}
+.pilot-model button {
+  font-size: 12px;
+}
+.pilot-proposal {
+  border: 1px solid var(--pilot-border);
+  padding: 12px;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+.pilot-proposal p {
+  white-space: pre-wrap;
+}
+.pilot-proposal > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.pilot-history-toggle {
+  width: 100%;
+  justify-content: center;
+}
+.pilot-history > p {
+  font-size: 11px;
+  color: var(--pilot-muted);
+}
+.pilot-history article {
+  display: grid;
+  gap: 5px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--pilot-border);
+  overflow-wrap: anywhere;
+}
+.pilot-history article small {
+  color: var(--pilot-muted);
+  font-size: 11px;
+}
+.pilot-history article button {
+  justify-self: start;
+  font-size: 12px;
+}
+.pilot-history nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 11px;
+}
+@media (max-width: 1150px) {
+  .pilot-panel {
+    right: 12px;
+    top: 75px;
+    width: 350px;
+    max-height: calc(100vh - 95px);
+  }
+}

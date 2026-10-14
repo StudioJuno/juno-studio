@@ -1,0 +1,38 @@
+services:
+  review:
+    build:
+      context: ../..
+      dockerfile: deploy/review/Dockerfile
+    environment:
+      JUNO_REVIEW_URL: https://${JUNO_REVIEW_DOMAIN:?Définir le domaine réel}
+      JUNO_REVIEW_BOOTSTRAP_TOKEN: ${JUNO_REVIEW_BOOTSTRAP_TOKEN:?Créer la clé avec setup.mjs}
+      JUNO_REVIEW_QUOTA_GB: ${JUNO_REVIEW_QUOTA_GB:-100}
+      JUNO_TRUST_PROXY: 1
+    volumes:
+      - review-data:/var/lib/juno-review
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    restart: unless-stopped
+    stop_grace_period: 130s
+    security_opt:
+      - no-new-privileges:true
+  proxy:
+    image: caddy:2
+    environment:
+      JUNO_REVIEW_DOMAIN: ${JUNO_REVIEW_DOMAIN:?Définir le domaine réel}
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile.docker:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      review:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  review-data:
+  caddy-data:
+  caddy-config:

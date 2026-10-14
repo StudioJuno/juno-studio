@@ -1,0 +1,23 @@
+[Unit]
+Description=Juno Studio - portail de retours clients
+After=network.target
+
+[Service]
+Type=simple
+User=juno-review
+Group=juno-review
+WorkingDirectory=/opt/juno-review
+EnvironmentFile=/etc/juno-review.env
+ExecStart=/usr/bin/node /opt/juno-review/server.mjs
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=130
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/juno-review
+
+[Install]
+WantedBy=multi-user.target

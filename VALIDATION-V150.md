@@ -1,0 +1,30 @@
+# Validation Juno Studio 1.5.0 — 10 octobre 2026
+
+## Tests exécutés sur Mac Apple Silicon
+
+- TypeScript, application Vite et portail Review : compilation réussie. Journal : `../../work/refonte-v150/build-final.log`.
+- Vitest : **66 fichiers, 636 tests réussis**, aucun échec ou erreur non traitée. Journal : `unit-final.log`. Les mocks AudioContext et événements de fenêtre ont été adaptés au contrat de la nouvelle interface ; les assertions de sauvegarde, refus, verrouillage et historique restent actives.
+- Tests natifs : **226 réussis**, aucun échec, ignoré ou annulé. Journal : `native-final.log`. Exécution avec deux fichiers concurrents pour limiter la charge pendant les exports FFmpeg.
+- Catalogue d’essai : 5 000 fiches synthétiques avec vignettes, sans décodage RAW. Première grille 849 ms, 60 cartes montées ; recherche 64 ms ; 5 000 statuts sauvegardés en 4 459 ms. Aucun fichier ne manque dans le lot sauvegardé. RAM de l’application mesurée après ce parcours : environ 630 Mio. Preuve : `catalog-scale-ui.json`.
+- Avant optimisation, ce même lot n’était pas terminé à la fin de l’attente : 2 836 fiches étaient sauvegardées. Les transactions groupées et l’index des modifications en attente corrigent ce ralentissement. Les tests vérifient aussi le rollback atomique si une fiche d’un lot disparaît, l’ordre des commandes et la reprise des écritures échouées.
+- Import de contrôle : 25 images valides et 7 images volontairement corrompues. Les valides sont visibles et chaque échec est conservé avec un diagnostic. Exposition saisie au clavier, Annuler, Rétablir et rechargement retrouvent respectivement 1, 0, 1 et 1. Preuve : `audit-ui.json`.
+- Montage dans l’interface : remplacement sur V1 sans conserver un plan caché sous l’autre, ajout V2, fondu à 10 images, volume direct 1,57, tête déplacée à l’image 28, titre déplacé à l’image 23 et étiré à 86 images, version verticale 2160 × 3840. Plein écran natif confirmé avec `BrowserWindow.isFullScreen()`. Preuve : `video/ui-report.json`.
+- Nouvelles fonctions dans l’interface : panoramique A1 à 70, groupe Voix et gain −6 dB persistants ; référence couleur capturée et trois scopes sélectionnables ; écoute d’une transcription d’essai ; « Bonjour Juno » corrigé en « Bonjour Jules » avec repère conservé à l’image 23. Preuve : `features-ui.json`. Le texte a été préparé pour le test de correction : ce n’est pas une qualification de reconnaissance vocale française.
+- Export issu de l’interface : MP4 H.264/AAC stéréo, 1920 × 1080, 2 secondes. L’image extraite montre le sous-titre corrigé. Le rapport d’énergie gauche/droite est 0,24004, contre 0,24008 attendu pour le panoramique +70 d’un signal stéréo dual mono. Fichiers : `export-ui-v150.mp4`, `export-frame.png`, `export-energy.json`.
+- Cinq rendus natifs supplémentaires vérifient centre, gauche, droite, groupe à demi-volume et groupe muet ; les fichiers sources restent inchangés. La suite native vérifie aussi les formats de livraison H.264, HEVC 10 bits, ProRes et DNxHR présents sur ce Mac.
+- Interface compacte : espace de travail et Activité se rejoignent sans superposition à 1100 × 720. Aperçu photo en concentration : zone 1056 × 420. Les captures de couleur, photo et livraisons sombres ont été relues visuellement. Les essais de zoom natif 125/150 % sur une fenêtre de 1440 × 900 confirment que les commandes de navigation restent dans la fenêtre. À 150 %, la zone du moniteur vidéo mesure 118 px de haut après adaptation de la timeline (28 px avant correction). Les panneaux spécialisés défilent sans passer sous la timeline. Mesures et captures : `zoom-ui.json`. Ces vérifications ne couvrent pas tous les écrans/zooms possibles.
+- Budget d’image : réservations concurrentes, plafond de cinq réservations, persistance et registre corrompu bloquant testés sans appel payant. La réservation locale n’est pas une facture fournisseur ou un quota d’équipe.
+
+## Livraison et installation
+
+La version **1.5.0 est installée dans /Applications/Juno Studio.app**. Les paquets Mac Apple Silicon et Intel sont signés Developer ID, acceptés par Apple et munis de leur ticket de notarisation ; Gatekeeper accepte l’application installée. Les ZIP Mac, le ZIP Windows et l’archive Review ont leurs sommes SHA256 dans `release/v1.5.0/SHA256SUMS.txt`. Les dossiers Mac décompressés ont aussi reçu leur ticket.
+
+Le contrôle de l’application installée utilise deux profils temporaires indépendants, supprimés après essai : import de 25 images valides et 7 corrompues, diagnostic, sauvegarde/Annuler/Rétablir/rechargement ; mixage panoramique et groupe persistants, référence couleur, écoute/correction de sous-titre et export H.264/AAC 1080p de 2 secondes. Aucun échec ou erreur d’interface dans ces parcours. Le moteur vidéo et la transcription locale sont disponibles. Le service Équipe répond et attend la création du mot de passe administrateur. Preuves : `../../work/refonte-v150/installed-smoke.json`, `installed-features.json`, `install.log`, `notary-*.json` et `delivery-summary.json`. L’installation a sauvegardé le catalogue et l’ancienne application sans réécrire les originaux.
+
+L’archive Review est produite par `npm run package:review`. Elle exclut les données clientes et les secrets. Les modèles Docker Compose, Caddy et systemd sont fournis. Docker/Linux et le certificat TLS public ne sont pas exécutés sur ce Mac.
+
+## Validations encore nécessaires
+
+Un serveur/domaine public doit être choisi pour Juno Review, puis testé depuis un autre réseau avec Juno fermé. L’administrateur Équipe doit définir son mot de passe dans l’application ; aucun mot de passe n’a été inventé ou partagé dans la conversation.
+
+Les essais Windows et Intel sur leurs machines restent à faire. Il manque aussi un corpus d’originaux représentatifs : 5 000 RAW mixtes, disques externes/réseau, longues vidéos FX3/R5/RED en 4K/6K LOG, 10 caméras et parole française avec musique/bruit. Les cas de codec synthétiques et les tests de catalogue ne qualifient pas ces projets réels. La parité complète avec Lightroom, Photoshop, Resolve, Premiere ou After Effects n’est pas établie par cette livraison.

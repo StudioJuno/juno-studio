@@ -1,0 +1,9 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {createTeamServer} from '../server/team-server.mjs';
+test('50 membres, catalogue de 5000 photos et lecture concurrente',async()=>{
+ const s=createTeamServer({adminEmail:'admin@juno.test',adminPassword:'a-very-long-admin-password'});await new Promise(r=>s.server.listen(0,'127.0.0.1',r));const base='http://127.0.0.1:'+s.server.address().port;
+ try{const login=await(await fetch(base+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:'admin@juno.test',password:'a-very-long-admin-password'})})).json();const headers={Authorization:'Bearer '+login.token,'Content-Type':'application/json'};const body={id:'scale',name:'5000 images',kind:'Projet libre',payload:{photos:Array.from({length:5000},(_,i)=>({id:'p'+i,name:'photo-'+i+'.ARW',width:6000,height:4000,status:'pending',hash:'a'.repeat(64),adjustments:{exposure:0,contrast:0,saturation:0}}))}};
+ assert.equal((await fetch(base+'/projects',{method:'POST',headers,body:JSON.stringify(body)})).status,201);
+ for(let i=0;i<50;i++){const res=await fetch(base+'/users',{method:'POST',headers,body:JSON.stringify({email:`p${i}@juno.test`,name:'Photographe '+i,role:'photographer',password:'long-password-for-testing'})});assert.equal(res.status,201);const user=await res.json();assert.equal((await fetch(base+'/projects/scale/members',{method:'POST',headers,body:JSON.stringify({userId:user.id,role:'editor'})})).status,200)}
+ const start=Date.now();const reads=await Promise.all(Array.from({length:50},async()=>{const res=await fetch(base+'/projects/scale',{headers});assert.equal(res.status,200);return(await res.json()).payload.photos.length}));console.log('50 concurrent catalogue reads, ms:',Date.now()-start);assert(reads.every(n=>n===5000));assert.equal(s.db.prepare('SELECT count(*) as n FROM members').get().n,50);
+ }finally{await s.close()}
+});

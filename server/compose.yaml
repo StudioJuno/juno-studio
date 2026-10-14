@@ -1,0 +1,17 @@
+services:
+  juno-team:
+    build: .
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      JUNO_ADMIN_EMAIL: ${JUNO_ADMIN_EMAIL:?Définir un email administrateur}
+      JUNO_ADMIN_PASSWORD: ${JUNO_ADMIN_PASSWORD:?Définir un mot de passe fort}
+      JUNO_ORIGINS: ${JUNO_ORIGINS:-http://127.0.0.1:5173}
+      # Le port n'est publié que sur l'hôte : seul le proxy TLS de l'hôte peut
+      # joindre le service, et il écrit l'adresse réelle dans X-Forwarded-For.
+      JUNO_TRUST_PROXY: ${JUNO_TRUST_PROXY:-1}
+    volumes:
+      - juno-data:/data
+    restart: unless-stopped
+volumes:
+  juno-data:

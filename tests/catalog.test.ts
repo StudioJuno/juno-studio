@@ -1,0 +1,6 @@
+import{it,expect}from'vitest';import{DEFAULT}from'../src/model';import{validateAdjustments}from'../src/modules/catalog-validation';
+it('refuse les réglages et cadrages malformés avant écriture dans le catalogue',()=>{expect(()=>validateAdjustments({...DEFAULT,exposure:NaN})).toThrow();expect(()=>validateAdjustments({...DEFAULT,cropRect:{x:.8,y:0,w:.5,h:1}})).toThrow();expect(()=>validateAdjustments({...DEFAULT,rotation:45})).toThrow()});
+it('valide une recette de retouche sans modifier son historique',()=>{const a={...DEFAULT,exposure:.5,cropRect:{x:.1,y:.1,w:.8,h:.8}};const result=validateAdjustments(a);expect(result).toEqual(a);expect(result).not.toBe(a)});
+
+import {validateCatalog}from'../src/modules/catalog-validation';
+it('refuse les metadonnees distantes qui feraient planter le catalogue',()=>{const project={id:'p',name:'Projet',kind:'Produit',date:'2026-09-22',location:'',created:1,demo:false};const photo={id:'photo',projectId:'p',name:'x.jpg',source:'idb',thumbnail:'',width:10,height:10,size:10,created:1,status:'pending',stars:0,adjustments:DEFAULT,history:[],analysis:{brightness:.5,sharpness:100,clipped:0,dhash:'0'.repeat(64),advice:'normal',reasons:'invalid'}};expect(()=>validateCatalog(project,[photo] as never)).toThrow();expect(()=>validateCatalog({...project,kind:{} as never},[])).toThrow()});

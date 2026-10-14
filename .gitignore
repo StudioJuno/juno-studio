@@ -1,0 +1,14 @@
+node_modules/
+dist/
+release/
+*.tsbuildinfo
+.env*
+.DS_Store
+signing/
+
+# Gros binaires (modeles IA, ffmpeg) : gardes sur le disque, hors git
+native/models/
+native/darwin-arm64/
+native/darwin-x64/
+native/win32-x64/
+public/models/
